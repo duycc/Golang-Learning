@@ -4,7 +4,6 @@ import "fmt"
 
 type data int
 
-
 const (
 	Zero data = iota
 	One
@@ -13,8 +12,7 @@ const (
 	Four
 )
 
-func main()  {
-
+func main() {
 	fmt.Println(Zero)
 	fmt.Println(One)
 	fmt.Println(Two)
