@@ -33,13 +33,47 @@ func main() {
 
 	// queryData(db)
 
-	updateRecords(db)
+	// updateRecords(db)
+
+	deleteRecords(db)
 
 	defer db.Close()
 }
 
+func deleteRecords(db *gorm.DB) {
+	db.Where("type = ?", 11).Delete(&Food{})
+}
+
 func updateRecords(db *gorm.DB) {
 	fmt.Println("updateRecords test...")
+	// food := Food{}
+	// db.Where("id = ?", 2).Take(&food)
+	// food.Price = 100
+	// db.Save(&food)
+
+	// if err := db.Model(&Food{}).Where("id = ?", 2).Update("price", 25).Error; err != nil {
+	// 	fmt.Printf("query failed, err: %+v\n", err)
+	// 	return
+	// }
+
+	// db.Model(&Food{}).Update("price", 100)
+
+	// updateFood := Food{
+	// 	Price: 120,
+	// 	Title: "柠檬雪碧",
+	// }
+
+	// if err := db.Model(&Food{}).Updates(&updateFood).Error; err != nil {
+	// 	fmt.Printf("update failed, err: %+v\n", err)
+	// 	return
+	// }
+
+	upd := make(map[string]interface{})
+	upd["stock"] = 0
+	upd["price"] = 200
+
+	db.Model(&Food{}).Where("id = ?", 2).Updates(upd)
+	db.Model(&Food{}).Where("id = ?", 2).Update("stock", gorm.Expr("stock + 1"))
 }
 
 func queryData(db *gorm.DB) {
