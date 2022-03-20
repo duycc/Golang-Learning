@@ -3,12 +3,12 @@ package main
 import "fmt"
 
 type Person struct {
-	Name string
-	Gender,Age int
+	Name        string
+	Gender, Age int
 }
 
 func main() {
-	p1 := Person{Name:"Scott",Gender:1,Age:30}
+	p1 := Person{Name: "Scott", Gender: 1, Age: 30}
 	p2 := AddAge(p1)
 	fmt.Println(p1)
 	fmt.Println(p2)
@@ -21,11 +21,10 @@ func main() {
 	fmt.Println(pp)
 }
 
-func AddAge(p Person) (p2 Person){
+func AddAge(p Person) (p2 Person) {
 	p.Age += 1
 	return p
 }
-func AddAgePlus(pp *Person)  {
+func AddAgePlus(pp *Person) {
 	pp.Age += 1
 }
-

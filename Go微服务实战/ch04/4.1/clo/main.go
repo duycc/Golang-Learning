@@ -10,10 +10,10 @@ func main() {
 	fmt.Println(f())
 }
 
-func double() func() int  {
+func double() func() int {
 	var r int
 	return func() int {
 		r++
-		return r*2
+		return r * 2
 	}
 }
