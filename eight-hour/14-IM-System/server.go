@@ -1,9 +1,20 @@
+//===--------------------------- 14-IM-System/server.go - [eight-hour] -----------------------------------*- Go -*-===//
+// Brief :
+//
+//
+// Author: YongDu
+// Date  : 2022-03-26
+//===--------------------------------------------------------------------------------------------------------------===//
+
 package main
 
 import (
 	"fmt"
+	"io"
 	"net"
+	"runtime"
 	"sync"
+	"time"
 )
 
 type Server struct {
@@ -47,15 +58,41 @@ func (s *Server) Handler(conn net.Conn) {
 	// 业务逻辑
 	// fmt.Println("connect succ...")
 
-	user := NewUser(conn)
+	user := NewUser(conn, s)
+	user.Online()
 
-	s.mapLock.Lock()
-	s.OnlineUsers[user.Name] = user
-	s.mapLock.Unlock()
+	isLive := make(chan bool)
 
-	s.BroadCast(user, "already online.")
+	// 接受客户端发送的消息
+	go func() {
+		buf := make([]byte, 4096)
+		for {
+			n, err := conn.Read(buf)
+			if n == 0 {
+				user.Offline()
+				return
+			}
+			if err != nil && err != io.EOF {
+				fmt.Printf("Conn Read Error: %+v", err)
+				return
+			}
+			msg := string(buf[:n-1]) // 去除 '\n'
+			user.DoMessage(msg)
+			isLive <- true
+		}
+	}()
 
-	select {} // 阻塞当前handler
+	for {
+		select {
+		case <-isLive:
+			// 重置定时器
+		case <-time.After(time.Second * 1000):
+			user.SendMsg("You are timeout\n")
+			close(user.C)
+			conn.Close()
+			runtime.Goexit()
+		} // 阻塞当前handler
+	}
 }
 
 func (s *Server) Start() {
