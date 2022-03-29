@@ -6,11 +6,11 @@ import (
 )
 
 func main() {
-	for i:=0;i<20;i++{
+	for i := 0; i < 20; i++ {
 		go func(i int) {
-			fmt.Print(" ",i)
+			fmt.Print(" ", i)
 		}(i)
 	}
-	time.Sleep(2*time.Second)
+	time.Sleep(2 * time.Second)
 	fmt.Println("The End!")
 }
