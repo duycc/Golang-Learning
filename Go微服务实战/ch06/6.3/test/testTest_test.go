@@ -2,7 +2,7 @@ package testTest
 
 import "testing"
 
-func TestFb1(t *testing.T)  {
+func TestFb1(t *testing.T) {
 	if fb1(0) != 0 {
 		t.Error(`fb1(0)!=0`)
 	}
@@ -17,7 +17,7 @@ func TestFb1(t *testing.T)  {
 	}
 }
 
-func TestFb2(t *testing.T)  {
+func TestFb2(t *testing.T) {
 	if fb2(0) != 0 {
 		t.Error(`fb2(0)!=0`)
 	}

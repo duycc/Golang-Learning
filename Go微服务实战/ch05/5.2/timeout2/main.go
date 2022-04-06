@@ -14,27 +14,27 @@ func main() {
 	rand.Seed(time.Now().UnixNano())
 	no := rand.Intn(6)
 	no *= 1000
-	du := time.Duration(int32(no))*time.Millisecond
-	fmt.Println("timeout duration is:",du)
+	du := time.Duration(int32(no)) * time.Millisecond
+	fmt.Println("timeout duration is:", du)
 	wg.Done()
-	if isTimeout(&wg,du){
+	if isTimeout(&wg, du) {
 		fmt.Println("Time out!")
-	}else {
+	} else {
 		fmt.Println("Not time out")
 	}
 }
 
-func isTimeout(wg *sync.WaitGroup,du time.Duration) bool  {
+func isTimeout(wg *sync.WaitGroup, du time.Duration) bool {
 	ch1 := make(chan int)
 	go func() {
-		time.Sleep(3*time.Second)
+		time.Sleep(3 * time.Second)
 		defer close(ch1)
 		wg.Wait()
 	}()
 	select {
 	case <-ch1:
 		return false
-	case <- time.After(du):
+	case <-time.After(du):
 		return true
 	}
 }

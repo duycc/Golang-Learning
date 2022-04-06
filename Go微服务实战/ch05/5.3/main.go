@@ -7,36 +7,37 @@ import (
 
 var done = false
 var Mess = make(map[int]bool)
+
 func main() {
 	A := make(chan int)
 	B := make(chan int)
-	go sendRan(50,10,A)
-	go receive(B,A)
+	go sendRan(50, 10, A)
+	go receive(B, A)
 	sum(B)
 }
 
-func genRandom(max,min int) int  {
-	return rand.Intn(max-min)+min
+func genRandom(max, min int) int {
+	return rand.Intn(max-min) + min
 }
 
-func sendRan(max,min int,out chan<- int)  {
-	for{
-		if done{
+func sendRan(max, min int, out chan<- int) {
+	for {
+		if done {
 			close(out)
 			return
 		}
-		out <- genRandom(max,min)
+		out <- genRandom(max, min)
 	}
 }
 
-func receive(out chan<- int ,in <-chan int)  {
-	for r := range in{
-		fmt.Println(" ",r)
-		_,ok := Mess[r]
+func receive(out chan<- int, in <-chan int) {
+	for r := range in {
+		fmt.Println(" ", r)
+		_, ok := Mess[r]
 		if ok {
-			fmt.Println("duplicate num is:",r)
+			fmt.Println("duplicate num is:", r)
 			done = true
-		}else {
+		} else {
 			Mess[r] = true
 			out <- r
 		}
@@ -44,11 +45,10 @@ func receive(out chan<- int ,in <-chan int)  {
 	close(out)
 }
 
-func sum(in <-chan int)  {
+func sum(in <-chan int) {
 	var sum int
-	for r := range in{
+	for r := range in {
 		sum += r
 	}
-	fmt.Println("The sum is:",sum)
+	fmt.Println("The sum is:", sum)
 }
-

@@ -5,9 +5,9 @@ import "fmt"
 func fb1(n int) int {
 	if n == 0 {
 		return 0
-	}else if n == 1 {
+	} else if n == 1 {
 		return 1
-	}else {
+	} else {
 		return fb1(n-1) + fb1(n-2)
 	}
 
@@ -22,11 +22,11 @@ func fb2(n int) int {
 
 func fb3(n int) int {
 	fbMap := make(map[int]int)
-	for i := 0;i <= n;i++ {
+	for i := 0; i <= n; i++ {
 		var t int
 		if i <= 1 {
 			t = i
-		}else {
+		} else {
 			t = fbMap[i-1] + fbMap[i-2]
 		}
 		fbMap[i] = t
