@@ -7,14 +7,14 @@ import (
 )
 
 var (
-	m sync.Mutex
+	m  sync.Mutex
 	v1 int
 )
 
 func Set(i int) {
 	m.Lock()
 	time.Sleep(time.Second)
-	v1 =  i
+	v1 = i
 	m.Unlock()
 }
 func Read() int {
