@@ -10,12 +10,13 @@ type pass struct {
 	RWM sync.RWMutex
 	pwd string
 }
-var RoomPass = pass{pwd:"initPass"}
 
-func Change(p *pass,pwd string)  {
+var RoomPass = pass{pwd: "initPass"}
+
+func Change(p *pass, pwd string) {
 	p.RWM.Lock()
 	fmt.Println()
-	time.Sleep(5*time.Second)
+	time.Sleep(5 * time.Second)
 	p.pwd = pwd
 	p.RWM.Unlock()
 }
@@ -27,7 +28,3 @@ func getPWD(p *pass) string {
 	defer p.RWM.RUnlock()
 	return p.pwd
 }
-
-
-
-

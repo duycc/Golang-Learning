@@ -8,7 +8,7 @@ import (
 func main() {
 	var wg sync.WaitGroup
 	var once sync.Once
-	for i:=0;i<10;i++{
+	for i := 0; i < 10; i++ {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
@@ -18,6 +18,6 @@ func main() {
 	wg.Wait()
 }
 
-func onlyOnce()  {
+func onlyOnce() {
 	fmt.Println("only once")
 }
