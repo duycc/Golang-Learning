@@ -1,4 +1,5 @@
 syntax = "proto3";  //指定版本（proto3、proto2）
+option go_package="./protocol";
 package protocol;
 
 enum FOO

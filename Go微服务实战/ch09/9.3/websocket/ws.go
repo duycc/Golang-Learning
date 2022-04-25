@@ -13,7 +13,7 @@ import (
 // 1
 type Message struct {
 	Name string `json:"name"`
-	Mess  string `json:"mess"`
+	Mess string `json:"mess"`
 }
 
 var clients = make(map[*websocket.Conn]bool)
@@ -35,7 +35,7 @@ func main() {
 }
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
-	content, err := ioutil.ReadFile("/Users/liujinliang/projects/go/src/ljl/book/ch09/9.3/websocket/index.html")
+	content, err := ioutil.ReadFile("/Users/duyong/go/src/Golang-Learning/Go微服务实战/ch09/9.3/websocket/index.html")
 	if err != nil {
 		fmt.Println("Could not open file.", err)
 	}

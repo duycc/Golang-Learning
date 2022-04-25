@@ -18,7 +18,7 @@ func GetAuthCode() Middleware {
 		return func(w http.ResponseWriter, r *http.Request) {
 			code := 0
 			//auth code is available only when access root
-			if r.URL.Path != "/"{
+			if r.URL.Path != "/" {
 				code = -1
 			}
 			//create a new request context containing the auth code, context available >= go 1.7
@@ -26,7 +26,7 @@ func GetAuthCode() Middleware {
 			//create a new request using that new context
 			rWithUser := r.WithContext(ctxWithUser)
 			//call the real handler, passing the new request
-			f(w,rWithUser)
+			f(w, rWithUser)
 		}
 	}
 }
@@ -40,15 +40,16 @@ func EnsureAuth() Middleware {
 			user := r.Context().Value(0)
 			if user != nil {
 				log.Println("auth available!")
-			}else {
-				http.Error(w,"Please sign in!",http.StatusUnauthorized)
+			} else {
+				http.Error(w, "Please sign in!", http.StatusUnauthorized)
 				return
 			}
 			// Call the next middleware/handler in chain
-			f(w,r)
+			f(w, r)
 		}
 	}
 }
+
 // Logging logs all requests with its path and the time it took to process
 func Logging() Middleware {
 	return func(f http.HandlerFunc) http.HandlerFunc {
@@ -73,8 +74,8 @@ func Method(m string) Middleware {
 			if r.Method != m {
 				http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 				return
-			}else {
-				log.Println("request is :",m)
+			} else {
+				log.Println("request is :", m)
 			}
 			// Call the next middleware/handler in chain
 			f(w, r)
@@ -93,12 +94,12 @@ func Chain(f http.HandlerFunc, middlewares ...Middleware) http.HandlerFunc {
 func Hello(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "hello world")
 }
-func Auth(w http.ResponseWriter, r *http.Request)  {
-	fmt.Fprintln(w,"You r authorized!")
+func Auth(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, "You r authorized!")
 }
 
 func main() {
-	http.HandleFunc("/", Chain(Hello, Method("GET"),GetAuthCode(), Logging()))
-	http.HandleFunc("/auth/", Chain(Auth, Method("GET"),GetAuthCode(),EnsureAuth(), Logging()))
+	http.HandleFunc("/", Chain(Hello, Method("GET"), GetAuthCode(), Logging()))
+	http.HandleFunc("/auth/", Chain(Auth, Method("GET"), GetAuthCode(), EnsureAuth(), Logging()))
 	http.ListenAndServe(":7775", nil)
 }

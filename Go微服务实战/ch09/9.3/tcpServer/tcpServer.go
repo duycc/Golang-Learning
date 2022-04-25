@@ -1,4 +1,3 @@
-
 package main
 
 import (
@@ -36,7 +35,7 @@ func main() {
 		i++
 
 		nowTime := nowtime()
-		fmt.Printf("request no %d return time:%s \n",i,nowTime)
+		fmt.Printf("request no %d return time:%s \n", i, nowTime)
 		myconn.Write([]byte(nowTime))
 		myconn.Close()
 
